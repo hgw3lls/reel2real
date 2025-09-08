@@ -1,0 +1,361 @@
+body {
+    background-color: #F1DFD1;
+}
+
+.btn-start,
+.quiz-box,
+.score-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* ---------------- Quiz Box ---------------- */
+.quiz-box.active {
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
+    opacity: 1;
+}
+
+.quiz-box {
+    width: 600px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.7);
+    transition: all .4s ease;
+    background: #fff;
+    box-shadow: 0 0 7px rgba(0,0,0,0.2);
+    border-radius: 8px;
+}
+
+.card-header {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.question-text {
+    font-size: 22px;
+    font-weight: 500;
+}
+
+/* ---------------- Options ---------------- */
+.option-list {
+    padding: 10px 0;
+}
+
+.option-list .option {
+    border: 1px solid #ee2c3f;
+    border-radius: 5px;
+    padding: 8px 15px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all .2s ease;
+}
+
+.option-list .option:hover {
+    background-color: rgb(100, 130, 250);
+}
+
+.option-list .option.correct {
+    color: #1f1411;
+    background: #2EFF2E;
+}
+
+.option-list .option.incorrect {
+    color: #f00;
+    background: rgba(255, 100, 100, 0.5);
+}
+
+.quiz-box .option.disabled {
+    pointer-events: none;
+}
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ---------------- Score Box as Ticket ---------------- */
+.score-box {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.7);
+    transition: all .4s ease;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    width: auto;
+    padding: 0;
+    text-align: center;
+}
+
+.score-box.active {
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
+    opacity: 1;
+}
+
+/* Ticket layout */
+.ticket {
+    display: flex;
+    border: 2px solid #333;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fefefe;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 20px auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    font-family: 'Courier New', monospace;
+}
+
+.ticket-left {
+    flex: 0 0 100px;
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 2px dashed #999;
+}
+
+.ticket-icon img {
+    max-width: 70px;
+    height: auto;
+}
+
+.ticket-body {
+    flex: 1;
+    padding: 15px;
+    text-align: center;
+}
+
+.ticket-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.ticket-sub {
+    font-size: 14px;
+    color: #444;
+}
+
+.ticket-right {
+    flex: 0 0 50px;
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 2px dashed #999;
+}
+
+.ticket-stub {
+    transform: rotate(-90deg);
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+/* Buttons under ticket */
+.score-box .buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 12px;
+}
+
+/* ---------------- Timer ---------------- */
+.time {
+    display: flex;
+    align-items: center;
+    background-color: #ee2c3f;
+    border-radius: 5px;
+    padding: 2px 5px;
+    color: #fff;
+}
+
+.time-text {
+    font-size: 15px;
+}
+
+.second {
+    width: 30px;
+    height: 30px;
+    margin-left: 3px;
+    font-size: 20px;
+    border-radius: 5px;
+    text-align: center;
+    padding: 1px;
+    background-color: rgb(69, 33, 174);
+}
+
+/* ---------------- Time Line ---------------- */
+.time-line {
+    background-color: #ee2c3f;
+    height: 5px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+/* ---------------- Mobile ---------------- */
+@media(max-width: 600px) {
+    .quiz-box,
+    .score-box {
+        width: 90%;
+    }
+
+    .card-header {
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .question-text {
+        font-size: 18px;
+        font-weight: 400;
+    }
+
+    .option-list {
+        padding: 6px 0;
+    }
+
+    .option-list .option {
+        padding: 4px 10px;
+        font-size: 15px;
+    }
+
+    .ticket-title {
+        font-size: 16px;
+    }
+
+    .ticket-sub {
+        font-size: 12px;
+    }
+
+    .ticket-icon img {
+        max-width: 50px;
+    }
+
+    .ticket-right {
+        flex: 0 0 40px;
+    }
+
+    .ticket-stub {
+        font-size: 10px;
+    }
+}
+
+/* Quiz header with timer */
+.quiz-box .card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+  background: #fff;
+  position: relative;
+  z-index: 1;
+}
+
+.quiz-box .card-header .title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* timer chip */
+.quiz-box .card-header .time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #ee2c3f;
+  color: #fff;
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+
+.quiz-box .card-header .time-text {
+  font-size: 14px;
+}
+
+.quiz-box .card-header .second {
+  width: 32px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  border-radius: 4px;
+  background: #4521ae;
+  color: #fff;
+}
+/* Keep everything inside the quiz card */
+.quiz-box {
+  overflow: hidden;         /* prevents bleed */
+  box-sizing: border-box;
+}
+
+/* Layout for location + question text */
+.quiz-box .question-top {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.quiz-box .location-wrap {
+  display: grid;
+  gap: 6px;
+}
+
+/* Constrain the location image to the card */
+/* .quiz-box .location-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;                
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,.08);
+}  */
+/* Location image fills the card width */
+.quiz-box .location-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border-radius: 6px;
+}
+/* Mobile: stack image above text */
+@media (max-width: 600px) {
+  .quiz-box .question-top {
+    grid-template-columns: 1fr;
+  }
+}
+.location-figure {
+  margin: 0 0 15px 0;
+  text-align: center;
+}
+
+.location-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.location-caption {
+  font-size: 14px;
+  color: #555;
+  margin-top: 6px;
+  font-style: italic;
+}
