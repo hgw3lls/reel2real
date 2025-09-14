@@ -1,88 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reel to Real – Cleveland</title>
 
-    <!-- bootstrap file -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <!-- Fonts (optional, remove if your project already loads fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 
-    <!-- fontawesome cdn -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <!-- css file -->
-    <link rel="stylesheet" href="style.css">
-
-    <title>Reel to Real Cleveland</title>
+  <!-- Project styles -->
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
+  <div id="app">
+    <!-- START SCREEN -->
+    <section id="start-screen" class="screen active" aria-labelledby="title">
+      <div class="frame">
+        <div class="title-wrap">
+          <img src="title.png" alt="Reel to Real Cleveland" class="title-image" />
+        </div>
 
-    <!-- Start Button -->
-    <button class="btn-start btn btn-warning btn-lg text-white">Start Game</button>
+        <div class="intro-text">
+          <h2 id="title">TAKE THE TEST – HOW WELL DO YOU KNOW CLE FILM HISTORY?</h2>
+          <p>
+            Cleveland has been a setting for many films — some are familiar, others somewhat obscure.
+            This interactive challenges you to link a contemporary image of a Cleveland site or building
+            to a major film shot (in part) at that site.
+          </p>
+          <p>
+            There are contemporary images of 12 sites in this interactive. Each single image is matched
+            with the title of 5 films. Choose the one you think is correct. If you’re right, the screen will
+            move to another challenge. If you are wrong, you’ll have more chances to choose the correct
+            film.
+          </p>
+        </div>
 
-    <!-- Quiz Box -->
-    <div class="quiz-box card">
-        <header class="card-header">
-            <span>Reel to Real Cleveland</span>
-            <div class="time">
-                <div class="time-text">Remaining Time</div>
-                <div class="second">10</div>
-            </div>
-            <div class="time-line"></div>
+        <div class="controls">
+          <button id="start-btn" class="btn btn-primary" type="button" aria-label="Start the quiz">
+            Start
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUIZ SCREEN (kept minimal so your existing JS can populate it) -->
+    <section id="quiz-screen" class="screen" hidden>
+      <div class="frame">
+        <header class="quiz-header">
+          <h3 id="quiz-title" class="sr-only">Quiz</h3>
+          <div class="progress" role="status" aria-live="polite">
+            <span id="progress-text">Question 1 of 12</span>
+          </div>
         </header>
-        
-        
-        <section class="card-body">
-          <!-- full-width location image with caption -->
-          <figure class="location-figure" style="display:none;">
-            <img class="location-image" src="" alt="Location" />
-            <figcaption class="location-caption"></figcaption>
-          </figure>
-        
-          <!-- question + options -->
-          <div class="question-text"></div>
-          <div class="option-list"></div>
-        </section>
 
+        <main class="quiz-main">
+          <div class="site-media">
+            <!-- Your JS should inject the contemporary site image/video here -->
+            <img id="site-image" alt="" />
+            <video id="site-video" playsinline muted preload="metadata" hidden></video>
+          </div>
 
+          <div class="choices" role="group" aria-label="Choose the correct film">
+            <!-- Your JS should inject 5 buttons here -->
+          </div>
+        </main>
 
-        <footer class="card-footer">
-          <div class="badge bg-secondary"></div>
-          <button class="btn btn-primary next">Next question</button>
-          <button class="btn btn-danger restart-btn">Restart Game</button>
+        <footer class="quiz-footer">
+          <button id="next-btn" class="btn" type="button" hidden>Next</button>
         </footer>
-    </div>
-
-    <!-- Score Box -->
-    <div class="score-box">
-      <div class="ticket">
-        <div class="ticket-left">
-          <div class="ticket-icon"></div>
-        </div>
-        <div class="ticket-body">
-          <div class="ticket-title score-rank"></div>
-          <div class="ticket-sub score-summary"></div>
-        </div>
-        <div class="ticket-right">
-          <div class="ticket-stub">ADMIT ONE</div>
-        </div>
       </div>
-      <div class="buttons">
-        <div class="btn btn-lg btn-primary replay-btn">Replay</div>
-        <div class="btn btn-lg btn-primary quit-btn">Quit</div>
-      </div>
-    </div>
+    </section>
 
-    <!-- JavaScript Files -->
-    <script src="js/question.js"></script>
-    <script src="js/quiz.js"></script>
-    <script src="js/main.js"></script>
+    <!-- RESULT / END SCREEN (optional placeholder) -->
+    <section id="end-screen" class="screen" hidden>
+      <div class="frame center">
+        <h2>Nice work!</h2>
+        <p id="score-text"></p>
+        <button id="restart-btn" class="btn" type="button">Play Again</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Your existing JS files. Keep names as in your project. -->
+  <script defer src="app.js"></script>
 </body>
-
 </html>
