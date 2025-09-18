@@ -324,11 +324,10 @@ if (startOverlay) {
   }, { once: true });
 }
 
-
-// Tap/click anywhere to start (enhanced, resilient)
+// Tap/click anywhere to start (clean final version)
 (function() {
   function findStartButton() {
-    // Try several common selectors
+    // Try common selectors
     let btn = document.querySelector('.start_btn') 
            || document.querySelector('.start-btn')
            || document.querySelector('[data-start="true"]')
@@ -341,33 +340,26 @@ if (startOverlay) {
     const overlay = document.getElementById('start-overlay');
     if (overlay) overlay.classList.add('hidden');
 
-    const attemptClick = (deadlineMs = 2000) => {
-      const start = performance.now();
-      function tick() {
-        const btn = findStartButton();
-        if (btn) {
-          // Defer one microtask to let any late listeners attach
-          Promise.resolve().then(() => btn.click());
-          return;
-        }
-        if (performance.now() - start < deadlineMs) {
-          requestAnimationFrame(tick);
-        } else {
-          // As a last resort, try calling a global start function if present
-          if (typeof window.startQuiz === 'function') {
-            window.startQuiz();
-          }
-        }
+    // Retry until button is ready
+    const start = performance.now();
+    function tick() {
+      const btn = findStartButton();
+      if (btn) {
+        Promise.resolve().then(() => btn.click()); // let listeners attach
+        return;
       }
-      tick();
-    };
-    attemptClick();
+      if (performance.now() - start < 2000) {
+        requestAnimationFrame(tick);
+      } else if (typeof window.startQuiz === 'function') {
+        window.startQuiz();
+      }
+    }
+    tick();
   }
 
   function armOverlay() {
     const overlay = document.getElementById('start-overlay');
     if (!overlay) return;
-    // Use 'click' to align with typical handlers; ensure single-fire
     const onceKick = () => { kickoff(); window.removeEventListener('keydown', keyKick); };
     const keyKick = (e) => {
       if (e.key === 'Enter' || e.key === ' ') onceKick();
