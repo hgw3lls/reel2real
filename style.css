@@ -359,26 +359,3 @@ footer {
   margin-top: 6px;
   font-style: italic;
 }
-
-
-/* Tap/Click Anywhere Overlay */
-.start-overlay {
-  position: fixed;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  background: rgba(0,0,0,0.75);
-  color: #fff;
-  font-size: clamp(18px, 3.5vw, 36px);
-  text-align: center;
-  z-index: 9999;
-  cursor: pointer;
-  user-select: none;
-}
-.start-overlay.hidden { display: none; }
-.start-prompt {
-  padding: .75rem 1.25rem;
-  border: 2px solid rgba(255,255,255,0.9);
-  border-radius: 9999px;
-  backdrop-filter: blur(2px);
-}
