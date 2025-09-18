@@ -315,3 +315,24 @@ if (!Object.getOwnPropertyDescriptor(Quiz.prototype, "length")) {
 
 
 
+
+
+// Tap/click anywhere to start
+const startOverlay = document.getElementById('start-overlay');
+const startBtn = document.querySelector('.start_btn'); // your existing start button
+
+function kickoff() {
+  if (startOverlay) startOverlay.classList.add('hidden');
+  if (startBtn) {
+    startBtn.click();
+  } else if (typeof window.startQuiz === 'function') {
+    window.startQuiz();
+  }
+}
+
+if (startOverlay) {
+  startOverlay.addEventListener('pointerdown', kickoff, { once: true });
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') kickoff();
+  }, { once: true });
+}
