@@ -317,22 +317,68 @@ if (!Object.getOwnPropertyDescriptor(Quiz.prototype, "length")) {
 
 
 
-// Tap/click anywhere to start
-const startOverlay = document.getElementById('start-overlay');
-const startBtn = document.querySelector('.start_btn'); // your existing start button
-
-function kickoff() {
-  if (startOverlay) startOverlay.classList.add('hidden');
-  if (startBtn) {
-    startBtn.click();
-  } else if (typeof window.startQuiz === 'function') {
-    window.startQuiz();
-  }
-}
-
 if (startOverlay) {
   startOverlay.addEventListener('pointerdown', kickoff, { once: true });
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') kickoff();
   }, { once: true });
 }
+
+
+// Tap/click anywhere to start (enhanced, resilient)
+(function() {
+  function findStartButton() {
+    // Try several common selectors
+    let btn = document.querySelector('.start_btn') 
+           || document.querySelector('.start-btn')
+           || document.querySelector('[data-start="true"]')
+           || Array.from(document.querySelectorAll('button, .btn, [role="button"]'))
+                .find(el => /start/i.test(el.textContent || ''));
+    return btn || null;
+  }
+
+  function kickoff() {
+    const overlay = document.getElementById('start-overlay');
+    if (overlay) overlay.classList.add('hidden');
+
+    const attemptClick = (deadlineMs = 2000) => {
+      const start = performance.now();
+      function tick() {
+        const btn = findStartButton();
+        if (btn) {
+          // Defer one microtask to let any late listeners attach
+          Promise.resolve().then(() => btn.click());
+          return;
+        }
+        if (performance.now() - start < deadlineMs) {
+          requestAnimationFrame(tick);
+        } else {
+          // As a last resort, try calling a global start function if present
+          if (typeof window.startQuiz === 'function') {
+            window.startQuiz();
+          }
+        }
+      }
+      tick();
+    };
+    attemptClick();
+  }
+
+  function armOverlay() {
+    const overlay = document.getElementById('start-overlay');
+    if (!overlay) return;
+    // Use 'click' to align with typical handlers; ensure single-fire
+    const onceKick = () => { kickoff(); window.removeEventListener('keydown', keyKick); };
+    const keyKick = (e) => {
+      if (e.key === 'Enter' || e.key === ' ') onceKick();
+    };
+    overlay.addEventListener('click', onceKick, { once: true });
+    window.addEventListener('keydown', keyKick, { once: true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', armOverlay, { once: true });
+  } else {
+    armOverlay();
+  }
+})();
