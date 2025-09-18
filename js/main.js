@@ -1,3 +1,29 @@
+// --- Start Overlay Shim (prevents ReferenceError even if legacy code runs early) ---
+(function(){
+  try {
+    // Declare the variable in global scope so legacy references don't throw
+    if (typeof window.startOverlay === 'undefined') {
+      window.startOverlay = null;
+    }
+  } catch(_) {}
+  // Ensure it's at least a safe object with no-op methods until DOM is ready
+  if (!window.startOverlay) {
+    window.startOverlay = {
+      classList: { add: function(){}, remove: function(){} },
+      addEventListener: function(){}, removeEventListener: function(){},
+      style: {}
+    };
+  }
+  // After DOM ready, replace shim with the real element if present
+  function hydrate() {
+    var el = document.getElementById('start-overlay');
+    if (el) { window.startOverlay = el; }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', hydrate, { once: true });
+  } else { hydrate(); }
+})();
+
 // js/main.js
 
 // Expecting FILMS_DATA + buildQuestionsFromFilms (from question.js)
